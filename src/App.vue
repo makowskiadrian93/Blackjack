@@ -8,8 +8,8 @@
         <br />
         <section class="row" v-if="gameInProgress && 
         multiplayerInProgress">
-          <button @click="startGame" class="btn btn-primary">POJEDYŃCZY GRACZ</button>
-          <button @click="startMultiplayer" class="btn btn-primary">DWÓCH GRACZY</button>
+          <button @click="startGame">POJEDYŃCZY GRACZ</button>
+          <button @click="startMultiplayer">DWÓCH GRACZY</button>
         </section>
         <section
           class="display"
@@ -23,8 +23,8 @@
               <div>{{ cardsInHand }}</div>
             </div>
             <div class="options">
-              <button @click="addSelectedcard" class="btn btn-primary">DOBIERZ</button>
-              <button @click="passTurn" class="btn btn-primary">PASS</button>
+              <button @click="addSelectedcard">DOBIERZ</button>
+              <button @click="passTurn">PASS</button>
             </div>
           </div>
           <div class="gracz">
@@ -34,8 +34,8 @@
               <div>{{ cardsInHand }}</div>
             </div>
             <div class="options">
-              <button class="btn btn-primary">X</button>
-              <button class="btn btn-primary">X</button>
+              <button>X</button>
+              <button>X</button>
             </div>
           </div>
         </section>
@@ -51,21 +51,21 @@
               <div>{{ cardsInHand }}</div>
             </div>
             <div class="options">
-              <button @click="addSelectedcard3" class="btn btn-primary">DOBIERZ</button>
-              <button @click="passTurn3" class="btn btn-primary">PASS</button>
-              <button @click="addCards" class="btn btn-primary">DODAJ KARTY</button>
+              <button @click="addSelectedcard3">DOBIERZ</button>
+              <button @click="passTurn3">PASS</button>
+              <button @click="fetchcards">DODAJ KARTY</button>
             </div>
           </div>
           <div class="gracz">
             <h5 class="text-center">GRACZ 2</h5>
             <h5 class="text-center">SUMA KART: {{ suma4 }}</h5>
             <div class="karta">
-              <div>{{ cards }}</div>
+              <div>{{ cardsInHand }}</div>
             </div>
             <div class="options">
-              <button @click="addSelectedcard4" class="btn btn-primary">DOBIERZ</button>
-              <button @click="passTurn4" class="btn btn-primary">PASS</button>
-              <button @click="addCards" class="btn btn-primary">DODAJ KARTY</button>
+              <button @click="addSelectedcard4">DOBIERZ</button>
+              <button @click="passTurn4">PASS</button>
+              <button @click="addCards">DODAJ KARTY</button>
             </div>
           </div>
         </section>
@@ -75,7 +75,7 @@
         <p>Wylosowana karta: {{ Selectedcard }}</p>
         <component :is="pojedynczyGracz"></component>
 
-        <div class="container"></div>
+       
       </div>
     </div>
   </div>
@@ -119,6 +119,9 @@ export default {
         appNewplayer: Newplayer
       }
     };
+  },
+  mounted() {
+    this.fetchcards();
   },
   methods: {
     startGame: function() {
@@ -206,23 +209,19 @@ export default {
     //     });
     // }
     addCards(card) {
-      this.cards.push(card);
+      this.cardsInHand.push(card);
     },
-    fetchCards() {
-      console.log("pobieramy z neta kolejne card");
-
-      let promise = fetch("https://deckofcardsapi.com/api/deck/<<new>>/draw/?count=2");
-
-      promise
-        .then(toCoBedziePodTymLinkiem => {
-          console.log(toCoBedziePodTymLinkiem);
-          return toCoBedziePodTymLinkiem.json();
-        })
-        .then(toCoBedziePodTymLinkiemAleJakoObiekt => {
-          console.log("sukces, udało się pobrać obiekt z linka");
-          console.log(toCoBedziePodTymLinkiemAleJakoObiekt);
-          this.cards.push(toCoBedziePodTymLinkiemAleJakoObiekt);
-        });
+     fetchcards(){
+      fetch(
+      "https://deckofcardsapi.com/api/deck/<<new>>/draw/?count=2"
+    )
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(json_data) {
+        //console.log(typeof(json_data))
+        this.cardsInHand = json_data.cardsInHand
+      });
     }
   }
 };
