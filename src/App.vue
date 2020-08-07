@@ -3,7 +3,7 @@
   <div class="game">
     <div class="row">
       <div class="blackjack">
-        <h1 section="color: black">BLACK JACK</h1>
+        <h1 section="color: black">BLACK JACK BOŻY</h1>
 
         <br />
         <section class="row" v-if="gameInProgress && 
@@ -19,7 +19,9 @@
           <div class="gracz">
             <h5 class="text-center">GRACZ 1</h5>
             <h5 class="text-center">SUMA KART: {{ suma }}</h5>
-            <h5 class="karta"></h5>
+            <div class="karta">
+              <div>{{ cardsInHand }}</div>
+            </div>
             <div class="options">
               <button @click="addSelectedcard" class="btn btn-primary">DOBIERZ</button>
               <button @click="passTurn" class="btn btn-primary">PASS</button>
@@ -28,7 +30,9 @@
           <div class="gracz">
             <h5 class="text-center">KOMPUTER</h5>
             <h5 class="text-center">SUMA KART: {{ suma2 }}</h5>
-            <h5 class="karta"></h5>
+            <div class="karta">
+              <div>{{ cardsInHand }}</div>
+            </div>
             <div class="options">
               <button class="btn btn-primary">X</button>
               <button class="btn btn-primary">X</button>
@@ -43,19 +47,25 @@
           <div class="gracz">
             <h5 class="text-center">GRACZ 1</h5>
             <h5 class="text-center">SUMA KART: {{ suma3 }}</h5>
-            <h5 class="karta"></h5>
+            <div class="karta">
+              <div>{{ cardsInHand }}</div>
+            </div>
             <div class="options">
               <button @click="addSelectedcard3" class="btn btn-primary">DOBIERZ</button>
               <button @click="passTurn3" class="btn btn-primary">PASS</button>
+              <button @click="addCards" class="btn btn-primary">DODAJ KARTY</button>
             </div>
           </div>
           <div class="gracz">
             <h5 class="text-center">GRACZ 2</h5>
             <h5 class="text-center">SUMA KART: {{ suma4 }}</h5>
-            <h5 class="karta"></h5>
+            <div class="karta">
+              <div>{{ cards }}</div>
+            </div>
             <div class="options">
               <button @click="addSelectedcard4" class="btn btn-primary">DOBIERZ</button>
               <button @click="passTurn4" class="btn btn-primary">PASS</button>
+              <button @click="addCards" class="btn btn-primary">DODAJ KARTY</button>
             </div>
           </div>
         </section>
@@ -79,7 +89,6 @@ import Newplayer from "@/components/Newplayer.vue";
 export default {
   data: function() {
     return {
-      cardsInHand: [],
       Selectedcard: 0,
       suma: 0,
       suma2: 0,
@@ -89,6 +98,7 @@ export default {
       multiplayerInProgress: true,
       imPassing3: false,
       imPassing4: false,
+      cardsInHand: [],
       cards: [
         {
           image: "https://deckofcardsapi.com/static/img/KH.png",
@@ -128,24 +138,24 @@ export default {
       this.suma4 = 0;
     },
     addSelectedcard: function() {
-      var minimum = 2;
-      var maximum = 11;
-      var value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
+      let minimum = 2;
+      let maximum = 11;
+      let value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
       this.suma = this.suma + value;
     },
     addSelectedcard3: function() {
-      var minimum = 2;
-      var maximum = 11;
-      var value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
+      let minimum = 2;
+      let maximum = 11;
+      let value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
       this.suma3 = this.suma3 + value;
       if (this.suma3 > 21) {
         alert("GRACZ 2 WYGRAŁ!");
       }
     },
     addSelectedcard4: function() {
-      var minimum = 2;
-      var maximum = 11;
-      var value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
+      let minimum = 2;
+      let maximum = 11;
+      let value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
       this.suma4 = this.suma4 + value;
       if (this.suma4 > 21) {
         alert("GRACZ 1 WYGRAŁ!");
@@ -153,29 +163,66 @@ export default {
     },
 
     passTurn: function() {
-      var minimum = 2;
-      var maximum = 11;
-      var value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
+      let minimum = 2;
+      let maximum = 11;
+      let value = Math.max(Math.floor(Math.random() * maximum) + 1, minimum);
       this.suma2 = this.suma2 + value;
       if (this.suma > this.suma2) {
-        alert("GRACZ 1 WYGRAŁ!") } else if (this.suma3 > this.suma4) {
-        alert("REMIS!")
-        } else {
-          alert("GRACZ 2 WYGRAŁ!")
-        }
+        alert("GRACZ 1 WYGRAŁ!");
+      } else if (this.suma3 > this.suma4) {
+        alert("REMIS!");
+      } else {
+        alert("GRACZ 2 WYGRAŁ!");
+      }
     },
     passTurn3: function() {
       this.imPassing3 = false;
       if (this.suma3 > this.suma4) {
-        alert("GRACZ 1 WYGRAŁ!") } else if (this.suma3 > this.suma4) {
-        alert("REMIS!")
-        } else {
-          alert("GRACZ 2 WYGRAŁ!")
-        }
-    
+        alert("GRACZ 1 WYGRAŁ!");
+      } else if (this.suma3 > this.suma4) {
+        alert("REMIS!");
+      } else {
+        alert("GRACZ 2 WYGRAŁ!");
+      }
     },
     passTurn4: function() {
       this.imPassing4 = true;
+    },
+    // addCards(card) {
+    //   this.cards.pop(card);
+    //   this.cardsInHand.push(card);
+    // },
+    // fetchCard() {
+    //   let promise = fetch(
+    //     "https://deckofcardsapi.com/api/deck/<<deck_id>>/draw/?count=2"
+    //   );
+
+    //   promise
+    //     .then(cards => {
+    //       return cards.json();
+    //     })
+    //     .then(cardsObject => {
+    //       this.cards.push(cardsObject);
+    //     });
+    // }
+    addCards(card) {
+      this.cards.push(card);
+    },
+    fetchCards() {
+      console.log("pobieramy z neta kolejne card");
+
+      let promise = fetch("https://deckofcardsapi.com/api/deck/<<new>>/draw/?count=2");
+
+      promise
+        .then(toCoBedziePodTymLinkiem => {
+          console.log(toCoBedziePodTymLinkiem);
+          return toCoBedziePodTymLinkiem.json();
+        })
+        .then(toCoBedziePodTymLinkiemAleJakoObiekt => {
+          console.log("sukces, udało się pobrać obiekt z linka");
+          console.log(toCoBedziePodTymLinkiemAleJakoObiekt);
+          this.cards.push(toCoBedziePodTymLinkiemAleJakoObiekt);
+        });
     }
   }
 };
@@ -195,6 +242,8 @@ html {
 
 body {
   background-color: darkgreen;
+  display: grid;
+  justify-items: center;
 }
 h1 {
   width: 100%;
