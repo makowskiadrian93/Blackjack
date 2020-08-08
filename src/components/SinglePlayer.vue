@@ -3,14 +3,16 @@
     <section>
       <div class="players"></div>
       <div class="playerName">GRACZ 1</div>
-      <div>{{ startingCards }}</div>
-      <button @click="fetchStartingCards2">ZACZNIJ</button>
+      <button @click="fetchStartingCards">ZACZNIJ</button>
+      <div v-bind:suit="startingCards.suit">{{ startingCards }}</div>
+      <button @click="fetchOneCard">DOBIERZ</button>
+      <button @click="passTurn">PASS</button>
     </section>
     <section>
       <div></div>
       <div class="playerName">GRACZ 2</div>
       <div>{{ startingCards2 }}</div>
-      <button @click="fetchStartingCards">ZACZNIJ</button>
+      <button @click="fetchStartingCards2">ZACZNIJ</button>
     </section>
   </div>
 </template>
@@ -24,15 +26,31 @@ export default {
     };
   },
   methods: {
+    passTurn() {
+alert('Cośtam');
+    },
     addStartingCards(twoCards) {
       this.startingCards.push(twoCards);
     },
+
     addStartingCards2(twoCards2) {
       this.startingCards2.push(twoCards2);
     },
     fetchStartingCards() {
       let promise = fetch(
-        "https://deckofcardsapi.com/api/deck/new/draw/?count=2"
+        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=2"
+      );
+      promise
+        .then(cards => {
+          return cards.json();
+        })
+        .then(cardsObject => {
+          this.startingCards.push(cardsObject);
+        });
+    },
+    fetchStartingCards2() {
+      let promise = fetch(
+        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=2"
       );
       promise
         .then(cards2 => {
@@ -42,16 +60,19 @@ export default {
           this.startingCards2.push(cardsObject);
         });
     },
-     fetchStartingCards2() {
+    addNewCard(oneCard) {
+      this.startingCards.push(oneCard);
+    },
+    fetchOneCard() {
       let promise = fetch(
-        "https://deckofcardsapi.com/api/deck/new/draw/?count=2"
+        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=1"
       );
       promise
-        .then(cards => {
-          return cards.json();
+        .then(cards3 => {
+          return cards3.json();
         })
-        .then(cardsObject => {
-          this.startingCards.push(cardsObject);
+        .then(cardsObject3 => {
+          this.startingCards.push(cardsObject3);
         });
     }
   }

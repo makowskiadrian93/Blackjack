@@ -4,14 +4,18 @@
     <div class="title">
       <section>
         <h1>BLACKJACK</h1>
-        <div>
+        <div class="startingButtons">
           <button @click="singlePlayer">POJEDYŃCZY GRACZ</button>
-          <!-- <button @click="multiPlayer">DWÓCH GRACZY</button> -->
-          <h2 class="footer">♠ ♥ ♦ ♣</h2>
+          <button>DWÓCH GRACZY</button>
+          
         </div>
+<h2 class="suits">♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ </h2>
       </section>
     </div>
     <SinglePlayer v-if="singlePlayerMode"></SinglePlayer>
+    <div class="newGameButton">
+      <button @click="newGame">NOWA GRA</button>
+    </div>
   </div>
 </template>
 
@@ -28,12 +32,15 @@ export default {
   components: {
     SinglePlayer
   },
-   methods: {
+  methods: {
+    newGame() {
+      this.singlePlayerMode = false;
+    },
     singlePlayer() {
-      console.log('rozpoczynamy singlePlayera');
+      console.log("rozpoczynamy singlePlayera");
       this.singlePlayerMode = true;
     }
-  },
+  }
 };
 </script>
 <style>
@@ -48,7 +55,17 @@ html {
   font-size: 2rem;
   text-align: center;
 }
-.footer {
+.suits {
+  display: grid;
+  grid-template-columns: auto;
   text-align: center;
+}
+.newGameButton {
+  display: grid;
+  grid-template-columns: 100%;
+}
+.startingButtons {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 </style>
