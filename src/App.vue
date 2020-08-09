@@ -6,13 +6,13 @@
         <h1>BLACKJACK</h1>
         <div class="startingButtons">
           <button @click="singlePlayer">POJEDYŃCZY GRACZ</button>
-          <button>DWÓCH GRACZY</button>
-          
+          <button @click="multiPlayer">DWÓCH GRACZY</button>
         </div>
-<h2 class="suits">♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦ </h2>
+        <h2 class="suits">♠ ♥ ♦ ♣ ♠ ♥ ♦ ♣ ♠ ♥ ♦</h2>
       </section>
     </div>
     <SinglePlayer v-if="singlePlayerMode"></SinglePlayer>
+    <MultiPlayer v-if="multiPlayerMode"></MultiPlayer>
     <div class="newGameButton">
       <button @click="newGame">NOWA GRA</button>
     </div>
@@ -22,24 +22,34 @@
 
 <script>
 import SinglePlayer from "./components/SinglePlayer.vue";
+import MultiPlayer from "./components/MultiPlayer.vue";
 
 export default {
   data: function() {
     return {
-      singlePlayerMode: false
+      singlePlayerMode: false,
+      multiPlayerMode: false
     };
   },
   components: {
-    SinglePlayer
+    SinglePlayer,
+    MultiPlayer
   },
   methods: {
     newGame() {
       this.singlePlayerMode = false;
+      this.multiPlayerMode = false
     },
     singlePlayer() {
       console.log("rozpoczynamy singlePlayera");
       this.singlePlayerMode = true;
-    }
+      this.multiPlayerMode = false;
+    },
+    multiPlayer() {
+console.log("rozpoczynamy multiPlayera");
+      this.multiPlayerMode = true;
+       this.singlePlayerMode = false;
+    },
   }
 };
 </script>

@@ -2,14 +2,29 @@
   <div class="baseBar">
     <section>
       <div>
-        <button @click="restart">OD NOWA</button>
-        <h2 class="footer">♠ ♥ ♦ ♣</h2>
+          <h2 class="baseBar">♠ ♥ ♦ ♣</h2>
+         <div class="newGameButton">
+      <button @click="newGame">NOWA GRA</button>
+    </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+export default {
+data: function() {
+
+},
+}
+ methods: {
+    newGame() {
+      this.singlePlayerMode = false;
+      this.multiPlayerMode = false
+    },
+
+ }
+
 </script>
 <style scoped>
 .baseBar {

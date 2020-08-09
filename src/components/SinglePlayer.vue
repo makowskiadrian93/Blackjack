@@ -2,17 +2,30 @@
   <div class="display">
     <section>
       <div class="players"></div>
-      <div class="playerName">GRACZ 1</div>
-      <button @click="fetchStartingCards">ZACZNIJ</button>
-      <div v-bind:suit="startingCards.suit">{{ startingCards }}</div>
-      <button @click="fetchOneCard">DOBIERZ</button>
-      <button @click="passTurn">PASS</button>
+      <div class="playerName">
+        GRACZ 1
+        <div>Wynik:</div>
+      </div>
+      <div class="optionButtons">
+        <button @click="fetchStartingCards">ZACZNIJ</button>
+        <button @click="fetchOneCard">DOBIERZ</button>
+        <button @click="passTurn">PASS</button>
+      </div>
+      <div v-for="card in startingCards" :key="card.cards">KARTY: {{ card.cards }}</div> 
+    
     </section>
     <section>
       <div></div>
-      <div class="playerName">GRACZ 2</div>
+      <div class="playerName">
+        KRUPIER
+        <div>Wynik:</div>
+      </div>
+      <div class="optionButtons">
+        <button>-</button>
+        <button>-</button>
+        <button>-</button>
+      </div>
       <div>{{ startingCards2 }}</div>
-      <button @click="fetchStartingCards2">ZACZNIJ</button>
     </section>
   </div>
 </template>
@@ -22,13 +35,18 @@ export default {
   data: function() {
     return {
       startingCards: [],
-      startingCards2: []
+      startingCards2: [],
+      playerOnePass: false,
+      playerTwoPass: false
     };
   },
   methods: {
     passTurn() {
-alert('Cośtam');
-    },
+      this.playerOnePass = true;
+      if(this.startingCards.value > 21) {
+alert('GRACZ 2 WYGRAŁ') } else if(this.startingCards.value > this.startingCards2.value) {
+  alert('GRACZ 1 WYGRAŁ')
+}}, 
     addStartingCards(twoCards) {
       this.startingCards.push(twoCards);
     },
@@ -38,7 +56,7 @@ alert('Cośtam');
     },
     fetchStartingCards() {
       let promise = fetch(
-        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=2"
+         "https://deckofcardsapi.com/api/deck/qzmt8424senh/draw/?count=2"
       );
       promise
         .then(cards => {
@@ -50,7 +68,7 @@ alert('Cośtam');
     },
     fetchStartingCards2() {
       let promise = fetch(
-        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=2"
+        "https://deckofcardsapi.com/api/deck/qzmt8424senh/draw/?count=2"
       );
       promise
         .then(cards2 => {
@@ -65,7 +83,7 @@ alert('Cośtam');
     },
     fetchOneCard() {
       let promise = fetch(
-        "https://deckofcardsapi.com/api/deck/u6abs7bcjx7l/draw/?count=1"
+        "https://deckofcardsapi.com/api/deck/qzmt8424senh/draw/?count=1"
       );
       promise
         .then(cards3 => {
@@ -89,7 +107,14 @@ alert('Cośtam');
   font-family: Arial, Helvetica, sans-serif;
 }
 .playerName {
+  background-color: rgb(4, 141, 141);
+  color: black;
   font-family: sans-serif;
-  color: orange;
+  font-size: 1rem;
+  text-align: center;
+}
+.optionButtons {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
 }
 </style>

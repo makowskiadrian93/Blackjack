@@ -6,13 +6,12 @@ export default {
     };
   },
   mounted() {
-    // API call
     this.fetchcards();
   },
   methods: {
     fetchcards(){
       fetch(
-      "https://deckofcardsapi.com/api/deck/<<new>>/draw/?count=2"
+      "https://deckofcardsapi.com/api/deck/new/draw/?count=2"
     )
       .then(function(response) {
         return response.json();
