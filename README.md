@@ -1,4 +1,5 @@
-# blackjack
+# Multiplayer blackjack game
+Play blackjack with a friend using only a webbrowser.
 
 ## Project setup
 ```
